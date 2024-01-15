@@ -9,6 +9,7 @@ pub fn parse_email(email: &str) -> Vec<crate::event::Event> {
 
     document
         .find(Name("img"))
+        .filter(|node| node.parent().map_or(true, |parent| !parent.is(Name("a"))))
         .filter_map(|node| node.attr("src"))
         .map(Event::from)
         .collect::<Vec<_>>()
